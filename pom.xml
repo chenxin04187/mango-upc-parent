@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>${maven-compiler-plugin.version}</version>
+          <configuration>
+            <source>1.8</source>
+            <target>1.8</target>
+            <encoding>UTF-8</encoding>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>kr.motd.maven</groupId>
+          <artifactId>os-maven-plugin</artifactId>
+          <version>${os-maven-plugin.version}</version>
+          <executions>
+            <execution>
+              <id>os-maven-plugin</id>
+              <phase>initialize</phase>
+              <goals>
+                <goal>detect</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.xolstice.maven.plugins</groupId>
+          <artifactId>protobuf-maven-plugin</artifactId>
+          <version>${protobuf-maven-plugin.version}</version>
+          <configuration>
+            <protocArtifact>com.google.protobuf:protoc:3.19.4:exe:${os.detected.classifier}</protocArtifact>
+            <protocPlugins>
+              <protocPlugin>
+                <id>dubbo</id>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-compiler</artifactId>
+                <version>${dubbo.version}</version>
+                <mainClass>org.apache.dubbo.gen.tri.Dubbo3TripleGenerator</mainClass>
+              </protocPlugin>
+            </protocPlugins>
+          </configuration>
+          <executions>
+            <execution>
+              <id>protoc-compile</id>
+              <goals>
+                <goal>compile</goal>
+                <goal>test-compile</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <artifactId>spring-boot-maven-plugin</artifactId>
+          <groupId>org.springframework.boot</groupId>
+          <version>${spring-boot-maven-plugin.version}</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+  
+  <artifactId>mango-upc-parent</artifactId>
+  <groupId>com.tobehonor</groupId>
+  
+  <name>mango-upc-parent</name>
+  <contributors>
+    <contributor>
+      <email>tyxchan@163.com</email>
+      <name>William Chan</name>
+    </contributor>
+  </contributors>
+  <packaging>pom</packaging>
+  
+  
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-bootstrap</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.alibaba.cloud</groupId>
+      <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.alibaba.cloud</groupId>
+      <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  
+  <dependencyManagement>
+    <dependencies>
+      <!-- spring boot依赖 -->
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-dependencies</artifactId>
+        <version>${spring-boot.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <!-- aliyun组件 配置组件，没有它阿里的中间件用不了 -->
+      <dependency>
+        <groupId>com.alibaba.cloud</groupId>
+        <artifactId>aliyun-spring-boot-dependencies</artifactId>
+        <version>${aliyun-spring-boot.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <!-- spring cloud依赖 -->
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-dependencies</artifactId>
+        <version>${spring-cloud.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <!-- spring cloud依赖 -->
+      <dependency>
+        <groupId>com.alibaba.cloud</groupId>
+        <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+        <version>${spring-cloud-alibaba.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      
+      <!-- dubbo3 -->
+      <dependency>
+        <groupId>org.apache.dubbo</groupId>
+        <artifactId>dubbo-bom</artifactId>
+        <version>${dubbo.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.google.protobuf</groupId>
+        <artifactId>protobuf-java</artifactId>
+        <version>${protobuf-java.version}</version>
+      </dependency>
+      
+      <!-- mybatis spring boot -->
+      <dependency>
+        <artifactId>mybatis-spring-boot-starter</artifactId>
+        <groupId>org.mybatis.spring.boot</groupId>
+        <version>${mybatis-spring-boot.version}</version>
+      </dependency>
+      
+      <!-- 数据库连接池 -->
+      <dependency>
+        <artifactId>druid-spring-boot-starter</artifactId>
+        <groupId>com.alibaba</groupId>
+        <version>${druid-spring-boot.version}</version>
+      </dependency>
+      
+      <!-- apache commons -->
+      <dependency>
+        <artifactId>commons-beanutils</artifactId>
+        <groupId>commons-beanutils</groupId>
+        <version>${commons-beanutils.version}</version>
+      </dependency>
+      <dependency>
+        <artifactId>commons-codec</artifactId>
+        <groupId>commons-codec</groupId>
+        <version>${commons-codec.version}</version>
+      </dependency>
+      <dependency>
+        <artifactId>commons-collections4</artifactId>
+        <groupId>org.apache.commons</groupId>
+        <version>${commons-collections4.version}</version>
+      </dependency>
+      <dependency>
+        <artifactId>commons-compress</artifactId>
+        <groupId>org.apache.commons</groupId>
+        <version>${commons-compress.version}</version>
+      </dependency>
+      <dependency>
+        <artifactId>commons-configuration</artifactId>
+        <groupId>commons-configuration</groupId>
+        <version>${commons-configuration.version}</version>
+      </dependency>
+      <dependency>
+        <artifactId>commons-fileupload</artifactId>
+        <groupId>commons-fileupload</groupId>
+        <version>${commons-fileupload.version}</version>
+      </dependency>
+      <dependency>
+        <artifactId>httpcore</artifactId>
+        <groupId>org.apache.httpcomponents</groupId>
+        <version>${httpcore.version}</version>
+      </dependency>
+      <dependency>
+        <artifactId>commons-io</artifactId>
+        <groupId>commons-io</groupId>
+        <version>${commons-io.version}</version>
+      </dependency>
+      <dependency>
+        <artifactId>commons-lang3</artifactId>
+        <groupId>org.apache.commons</groupId>
+        <version>${commons-lang3.version}</version>
+      </dependency>
+      <dependency>
+        <artifactId>commons-logging</artifactId>
+        <groupId>commons-logging</groupId>
+        <version>${commons-logging.version}</version>
+      </dependency>
+      <dependency>
+        <artifactId>commons-validator</artifactId>
+        <groupId>commons-validator</groupId>
+        <version>${commons-validator.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+  
+  <url>http://www.tobehonor.com</url>
+  <modelVersion>4.0.0</modelVersion>
+  
+  <!-- 这些很多的依赖后期自定义包出来后都可以替换成自定义的 -->
+  <properties>
+    <java.version>1.8</java.version>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <aliyun-spring-boot.version>1.0.0</aliyun-spring-boot.version>
+    <spring-cloud-alibaba.version>2021.0.5.0</spring-cloud-alibaba.version>
+    <spring-cloud.version>2021.0.5</spring-cloud.version>
+    
+    <spring-boot.version>2.7.10</spring-boot.version>
+    <mybatis-spring-boot.version>2.2.2</mybatis-spring-boot.version>
+    <!-- dubbo3 -->
+    <dubbo.version>3.2.5</dubbo.version>
+    <protobuf-java.version>3.19.6</protobuf-java.version>
+    <protobuf-maven-plugin.version>0.6.1</protobuf-maven-plugin.version>
+    
+    <os-maven-plugin.version>1.7.1</os-maven-plugin.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+    <spring-boot-maven-plugin.version>2.6.3</spring-boot-maven-plugin.version>
+    <commons-beanutils.version>1.9.4</commons-beanutils.version>
+    <commons-codec.version>1.15</commons-codec.version>
+    <commons-collections4.version>4.4</commons-collections4.version>
+    <commons-compress.version>1.21</commons-compress.version>
+    <commons-configuration.version>1.10</commons-configuration.version>
+    <commons-fileupload.version>1.4</commons-fileupload.version>
+    <commons-io.version>2.11.0</commons-io.version>
+    <commons-lang3.version>3.12.0</commons-lang3.version>
+    <commons-logging.version>1.2</commons-logging.version>
+    <commons-validator.version>1.7</commons-validator.version>
+    <druid-spring-boot.version>1.2.11</druid-spring-boot.version>
+    <httpcore.version>4.4.15</httpcore.version>
+    <sa-token.version>1.35.0.RC</sa-token.version>
+  </properties>
+  
+  <version>0.0.1-SNAPSHOT</version>
+</project>
